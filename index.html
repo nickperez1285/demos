@@ -1,16 +1,20 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>GeoLocation Example</title>
+
+	<style>
+		html, body, #map {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+		}
+	</style>
+</head>
 <body>
+	<div id="map"></div>
 
-<div class='header'><h1>Home</h1></div>
-<div class='search-view'>
-<input class='search-key' type="text"/>
-<ul class='employee-list'></ul>
-</div>
-
-<script src="lib/jquery-1.8.2.min.js"></script>
-<script src="js/storage/memory-store.js"></script>
-<script src="js/main.js"></script>
-<script src="phonegap.js"></script>
-
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+	<script src="main.js"></script>
 </body>
-</html>

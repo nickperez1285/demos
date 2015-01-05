@@ -1,31 +1,40 @@
-var app = {
-    showAlert: function (message, title) {
-        if (navigator.notification) {
-            navigator.notification.alert(message, null, title, 'OK');
-        } else {
-            alert(title ? (title + ": " + message) : message);
-        }
-    },
-    findByName: function() {
-        console.log('findByName');
-        this.store.findByName($('.search-key').val(), function(employees) {
-            var l = employees.length;
-            var e;
-            $('.employee-list').empty();
-            for (var i=0; i<l; i++) {
-                e = employees[i];
-                $('.employee-list').append('<li><a href="#employees/' + e.id + '">' + e.firstName + ' ' + e.lastName + '</a></li>');
-            }
-        });
-    },
+window.onload = function() {
 
-    initialize: function() {
-        this.store = new MemoryStore(function(){
-            self.showAlert('Store Initialized', 'Info')
+    // Check to see if the browser supports the GeoLocation API.
+    if (navigator.geolocation) {
+        // Get the location
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+
+            // Show the map
+            showMap(lat, lon);
         });
-        $('.search-key').on('keyup', $.proxy(this.findByName, this));
+    } else {
+        // Print out a message to the user.
+        document.write('Your browser does not support GeoLocation :(');
     }
 
-};
+}
 
-app.initialize();
+// Show the user's position on a Google map.
+function showMap(lat, lon) {
+    // Create a LatLng object with the GPS coordinates.
+    var myLatLng = new google.maps.LatLng(lat, lon);
+
+    // Create the Map Options
+  var mapOptions = {
+    zoom: 8,
+    center: myLatLng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  // Generate the Map
+  var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+  // Add a Marker to the Map
+  var marker = new google.maps.Marker({
+      position: myLatLng,
+      map: map,
+      title: 'Found you!'
+  });
