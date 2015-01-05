@@ -1,40 +1,26 @@
-window.onload = function() {
+var app = {
 
-    // Check to see if the browser supports the GeoLocation API.
-    if (navigator.geolocation) {
-        // Get the location
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
+     
+      function initGeolocation() {
+        if (navigator && navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        } else {
+          console.log('Geolocation is not supported');
+        }
+      }
+     
+      function errorCallback() {}
 
-            // Show the map
-            showMap(lat, lon);
-        });
-    } else {
-        // Print out a message to the user.
-        document.write('Your browser does not support GeoLocation :(');
-    }
+      function successCallback(position) {
+        var myLatlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        var map_options = {
+          zoom: 15,
+          center: myLatlng,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+       map_container = document.getElementById('map');
+       var map = new google.maps.Map(map_container, map_options);
+      }      
+   
 
-}
-
-// Show the user's position on a Google map.
-function showMap(lat, lon) {
-    // Create a LatLng object with the GPS coordinates.
-    var myLatLng = new google.maps.LatLng(lat, lon);
-
-    // Create the Map Options
-  var mapOptions = {
-    zoom: 8,
-    center: myLatLng,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  };
-
-  // Generate the Map
-  var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-  // Add a Marker to the Map
-  var marker = new google.maps.Marker({
-      position: myLatLng,
-      map: map,
-      title: 'Found you!'
-  });
+app.initialize();
